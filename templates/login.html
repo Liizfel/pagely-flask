@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagely - Login</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- CONFIGURAÇÃO DE CORES E FONTES COTTAGE -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cottage-text': '#4A4A4A',
+                        'cottage-detail': '#A08C7A',
+                        'cottage-card': '#F7F4EB',
+                        'cottage-accent': '#A3B18A',
+                        'cottage-primary': '#B8860B',
+                        'cottage-bg': '#F5F5DC',
+                    },
+                    fontFamily: {
+                        'pagely-script': ['Dancing Script', 'cursive'],
+                        'pagely-title': ['Playfair Display', 'serif'],
+                        'pagely-body': ['Lora', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Estilo de Fundo Quadriculado */
+        .ruled-background {
+            background-color: #F5F5DC; /* cottage-bg */
+            background-image:
+                linear-gradient(to bottom, rgba(160, 140, 122, 0.05) 1px, transparent 1px),
+                linear-gradient(to right, rgba(160, 140, 122, 0.03) 1px, transparent 1px);
+            background-size: 25px 25px;
+            font-family: 'Lora', sans-serif;
+            color: theme('colors.cottage-text');
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .vintage-button {
+            background-color: theme('colors.cottage-primary');
+            color: theme('colors.cottage-card');
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            transition: background-color 0.3s ease, transform 0.1s;
+        }
+        .vintage-button:hover {
+            filter: brightness(0.9);
+        }
+
+        .accent-button {
+            background-color: theme('colors.cottage-accent');
+            color: theme('colors.cottage-text');
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            transition: background-color 0.3s ease, transform 0.1s;
+        }
+        .accent-button:hover {
+            filter: brightness(1.05);
+        }
+    </style>
+</head>
+<body class="ruled-background p-4">
+
+    <!-- CARD PRINCIPAL DE AUTENTICAÇÃO -->
+    <div id="auth-card" class="bg-cottage-card p-8 sm:p-10 rounded-xl max-w-sm w-full shadow-2xl border-4 border-cottage-accent/50 relative">
+        <header class="text-center mb-6">
+            <h1 class="text-5xl font-pagely-script tracking-wider text-cottage-primary font-bold leading-none">
+                Pagely
+            </h1>
+            <p class="text-sm italic text-cottage-detail mt-2 font-pagely-body">
+                Seu refúgio entre páginas.
+            </p>
+        </header>
+
+        <!-- MENSAGENS DE ERRO/SUCESSO -->
+        {% if error or register_error %}
+        <div class="p-3 mb-4 rounded-lg border border-red-500 bg-red-200 text-red-700 text-sm font-bold text-center" id="error-message">
+            {{ error or register_error }}
+        </div>
+        {% endif %}
+
+        <!-- CONTEÚDO DINÂMICO (LOGIN ou REGISTRO) -->
+        
+        <!-- 1. FORMULÁRIO DE LOGIN -->
+        <div id="login-container" class="space-y-4">
+            <h2 class="text-2xl font-pagely-title text-cottage-text font-bold text-center">Entrar na Estante</h2>
+            <form action="{{ url_for('login') }}" method="POST" class="space-y-4">
+                
+                <div>
+                    <!-- Usando 'username' para sincronizar com app.py -->
+                    <label for="login-username" class="block text-sm font-bold mb-1 text-cottage-detail">Usuário:</label>
+                    <input type="text" id="login-username" name="username" required 
+                           class="w-full p-3 rounded-md border-2 border-cottage-accent bg-cottage-bg/80 focus:border-cottage-primary focus:ring-0 text-cottage-text" 
+                           placeholder="leitor">
+                </div>
+                
+                <div>
+                    <label for="login-password" class="block text-sm font-bold mb-1 text-cottage-detail">Senha:</label>
+                    <input type="password" id="login-password" name="password" required 
+                           class="w-full p-3 rounded-md border-2 border-cottage-accent bg-cottage-bg/80 focus:border-cottage-primary focus:ring-0 text-cottage-text"
+                           placeholder="***">
+                </div>
+                
+                <button type="submit" class="vintage-button w-full px-3 py-3 font-bold text-xl uppercase rounded-lg shadow-md mt-6">
+                    Acessar
+                </button>
+            </form>
+            
+            <div class="text-center pt-4 border-t border-cottage-detail/20">
+                <p class="text-sm text-cottage-detail">Ainda não tem conta?</p>
+                <button id="show-register-btn" class="text-cottage-accent hover:text-cottage-primary transition duration-300 font-bold text-sm mt-1">
+                    Crie uma gratuitamente
+                </button>
+            </div>
+        </div>
+
+        <!-- 2. FORMULÁRIO DE REGISTRO (Inicialmente escondido) -->
+        <div id="register-container" class="space-y-4 hidden">
+            <h2 class="text-2xl font-pagely-title text-cottage-text font-bold text-center">Criar Nova Conta</h2>
+            <form action="{{ url_for('register') }}" method="POST" class="space-y-4">
+                
+                <div>
+                    <!-- Usando 'username' para sincronizar com app.py -->
+                    <label for="reg-username" class="block text-sm font-bold mb-1 text-cottage-detail">Novo Usuário:</label>
+                    <input type="text" id="reg-username" name="username" required 
+                           class="w-full p-3 rounded-md border-2 border-cottage-accent bg-cottage-bg/80 focus:border-cottage-primary focus:ring-0 text-cottage-text" 
+                           placeholder="novo_leitor">
+                </div>
+                
+                <div>
+                    <label for="reg-password" class="block text-sm font-bold mb-1 text-cottage-detail">Senha (Mín. 6 caracteres):</label>
+                    <input type="password" id="reg-password" name="password" required 
+                           class="w-full p-3 rounded-md border-2 border-cottage-accent bg-cottage-bg/80 focus:border-cottage-primary focus:ring-0 text-cottage-text"
+                           placeholder="***">
+                </div>
+                
+                <button type="submit" class="accent-button w-full px-3 py-3 font-bold text-xl uppercase rounded-lg shadow-md mt-6">
+                    Registrar
+                </button>
+            </form>
+            
+            <div class="text-center pt-4 border-t border-cottage-detail/20">
+                <p class="text-sm text-cottage-detail">Já sou registrado(a).</p>
+                <button id="show-login-btn" class="text-cottage-primary hover:text-cottage-accent transition duration-300 font-bold text-sm mt-1">
+                    Voltar para o Login
+                </button>
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        const loginContainer = document.getElementById('login-container');
+        const registerContainer = document.getElementById('register-container');
+        const showRegisterBtn = document.getElementById('show-register-btn');
+        const showLoginBtn = document.getElementById('show-login-btn');
+        const errorMessage = document.getElementById('error-message');
+        
+        // ⭐ CORREÇÃO DE SINTAXE: Injetando o valor booleano como uma string literal JavaScript para evitar erros de parsing.
+        let isRegisterMode = "{{ 'true' if register_error else 'false' }}" === "true";
+
+        function toggleMode(showRegister) {
+            if (showRegister) {
+                loginContainer.classList.add('hidden');
+                registerContainer.classList.remove('hidden');
+            } else {
+                loginContainer.classList.remove('hidden');
+                registerContainer.classList.add('hidden');
+            }
+        }
+        
+        // Inicializa o modo correto ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            toggleMode(isRegisterMode);
+
+            // Se houver uma mensagem de erro, remove ela após 5 segundos para não poluir
+            if (errorMessage) {
+                 setTimeout(() => {
+                    errorMessage.remove();
+                 }, 5000);
+            }
+        });
+
+        // Eventos para alternar entre os formulários
+        showRegisterBtn.addEventListener('click', () => toggleMode(true));
+        showLoginBtn.addEventListener('click', () => toggleMode(false));
+    </script>
+</body>
+</html>
