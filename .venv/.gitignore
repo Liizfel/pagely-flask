@@ -1,0 +1,10 @@
+pagely.db
+.venv
+.__pycache__
+.pyc
+instance
+nodes_modules
+.env
+package-lock.json
+.vscode
+package.json
