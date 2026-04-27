@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap');
+
+@theme {
+  --color-brand-bg: #F5F5F4;      
+  --color-brand-surface: #FFFFFF;
+  --color-brand-primary: #44403C;  
+  --color-brand-accent: #78716C;   
+  --color-brand-text: #1C1917;     
+  --color-brand-muted: #78716C;    
+  --color-brand-border: #E7E5E4;
+  
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2.5rem;
+}
+
+@layer base {
+  body {
+    @apply bg-brand-bg text-brand-text antialiased;
+    font-family: 'Lexend', sans-serif;
+  }
+}
