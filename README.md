@@ -62,13 +62,19 @@ Siga os passos para ter o Pagely rodando em sua máquina:
 
 1. **Clone o Repositório:**
    ```bash
-   git clone [[https://github.com/Liizfel/Pagely](https://github.com/Liizfel/Pagely)]
-   cd pagely
+   git clone [https://github.com/Liizfel/pagely-flask.git](https://github.com/Liizfel/pagely-flask.git)
+   cd pagely-flask
+   ```
+
 2. **Instale as Dependências:**
-  ```npm install
-  
+   ```bash
+   npm install
+   ```
+
 3. **Inicie o Servidor de Desenvolvimento:**
-  ```npm run dev
+   ```bash
+   npm run dev
+   ```
 
 ---
 
@@ -77,8 +83,8 @@ Este projeto foi desenvolvido exclusivamente para fins de estudo e portfólio. O
 
 ---
 
-
 ## 🤝 Contribuição
 Sugestões para novas métricas ou melhorias na interface são sempre bem-vindas!
 
 ---
+<p align="center">Desenvolvido com ☕ por <b>Karen Felix</b></p>
